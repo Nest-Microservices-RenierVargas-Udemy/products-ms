@@ -1,4 +1,5 @@
 import {
+  HttpStatus,
   Injectable,
   Logger,
   OnModuleInit,
@@ -49,7 +50,10 @@ export class ProductsService extends PrismaClient implements OnModuleInit {
       where: { id, available:true },
     });
     if (!product) {
-      throw new RpcException(`Product with id #${id} not found`);
+      throw new RpcException({
+        message : `Product with id #${id} not found`,
+        status : HttpStatus.BAD_REQUEST
+      });
       // throw new NotFoundException(`Product with id #${id} not found`);
     }
     return product;
